@@ -213,3 +213,70 @@
   background: #fee2e2;
   color: #991b1b;
 }
+
+.status-change {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-no-change {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* History list (Step 1) */
+.history-list {
+  margin-top: 8px;
+}
+
+.history-list-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0 0 8px 0;
+}
+
+.row-selectable {
+  cursor: pointer;
+}
+
+.row-selectable:hover {
+  background: #f0f9ff !important;
+}
+
+.row-selected {
+  background: #ede9fe !important;
+  cursor: pointer;
+}
+
+.row-selected td {
+  color: #4c1d95;
+}
+
+/* Account details (Step 3) */
+.account-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-section-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-key {
+  font-weight: 500;
+  color: #64748b;
+  width: 140px;
+  font-size: 13px;
+}

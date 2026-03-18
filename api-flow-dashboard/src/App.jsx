@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   const [historyId, setHistoryId] = useState('');
-  const [transactions, setTransactions] = useState(null);
+  const [historyDetails, setHistoryDetails] = useState(null);
 
   return (
     <div className="app-container">
@@ -34,15 +34,15 @@ function App() {
               <div className="connector-line"></div>
               <div className="connector-arrow">↓</div>
             </div>
-            <Step2History 
-              initialHistoryId={historyId} 
-              onDetailsFetched={setTransactions} 
+            <Step2History
+              initialHistoryId={historyId}
+              onDetailsFetched={setHistoryDetails}
             />
             <div className="step-connector">
               <div className="connector-line"></div>
               <div className="connector-arrow">↓</div>
             </div>
-            <Step3Result transactions={transactions} />
+            <Step3Result transactions={historyDetails} />
           </div>
         </main>
       </div>

@@ -5,22 +5,29 @@ import './StepCard.css';
 export default function Step1RepName({ onHistoryIdFetched }) {
   const [submissionId, setSubmissionId] = useState('');
   const [selectedType, setSelectedType] = useState('submission');
-  const [historyId, setHistoryId] = useState(null);
+  const [historyList, setHistoryList] = useState(null);
+  const [selectedHistoryId, setSelectedHistoryId] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleFetch = async () => {
     if (!submissionId.trim()) return;
-    
+
     setLoading(true);
+    setHistoryList(null);
+    setSelectedHistoryId(null);
     try {
       const result = await getTransactionHistoryList(submissionId);
-      setHistoryId(result.historyId);
-      onHistoryIdFetched?.(result.historyId);
+      setHistoryList(result.TransactionHistory);
     } catch (error) {
       console.error('Error fetching history:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSelectRow = (historyId) => {
+    setSelectedHistoryId(historyId);
+    onHistoryIdFetched?.(historyId);
   };
 
   return (
@@ -29,7 +36,7 @@ export default function Step1RepName({ onHistoryIdFetched }) {
         <span className="step-number">1</span>
         <h3>Rep Name</h3>
       </div>
-      
+
       <div className="step-content">
         <div className="form-group">
           <label>Type</label>
@@ -57,18 +64,41 @@ export default function Step1RepName({ onHistoryIdFetched }) {
           />
         </div>
 
-        <button 
+        <button
           className="fetch-btn"
           onClick={handleFetch}
           disabled={loading || !submissionId.trim()}
         >
-          {loading ? 'Fetching...' : 'Fetch History ID'}
+          {loading ? 'Fetching...' : 'Fetch History List'}
         </button>
 
-        {historyId && (
-          <div className="result-box">
-            <span className="result-label">History ID:</span>
-            <code className="result-value">{historyId}</code>
+        {historyList && historyList.length > 0 && (
+          <div className="history-list">
+            <p className="history-list-hint">Select a row to use its History ID in Step 2</p>
+            <table className="result-table">
+              <thead>
+                <tr>
+                  <th>History ID</th>
+                  <th>Transaction #</th>
+                  <th>Activity</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historyList.map((item) => (
+                  <tr
+                    key={item.HistoryID}
+                    className={selectedHistoryId === item.HistoryID ? 'row-selected' : 'row-selectable'}
+                    onClick={() => handleSelectRow(item.HistoryID)}
+                  >
+                    <td><code className="result-value">{item.HistoryID}</code></td>
+                    <td>{item.TransactionNumber}</td>
+                    <td>{item.UserActivity}</td>
+                    <td>{item.ActivityDateTime}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

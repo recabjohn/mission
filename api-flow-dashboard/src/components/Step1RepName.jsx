@@ -131,10 +131,6 @@ export default function Step1RepName({ onDetailsFetched }) {
           </div>
         )}
       </div>
-
-      <div className="api-indicator">
-        <code>getTransactionHistoryList(id) → getHistoryDetails(historyId)</code>
-      </div>
     </div>
   );
 }

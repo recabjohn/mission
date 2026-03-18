@@ -1,0 +1,59 @@
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.main-wrapper {
+  flex: 1;
+  margin-left: 220px;
+}
+
+.main-content {
+  padding: 96px 32px 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.flow-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 12px;
+  margin-bottom: 32px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.flow-indicator .arrow {
+  opacity: 0.6;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.connector-line {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+}
+
+.connector-arrow {
+  font-size: 20px;
+  color: #6366f1;
+  line-height: 1;
+}

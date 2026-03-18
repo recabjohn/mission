@@ -1,0 +1,26 @@
+.topbar {
+  height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: fixed;
+  top: 0;
+  left: 220px;
+  right: 0;
+  z-index: 10;
+}
+
+.topbar h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.topbar-subtitle {
+  font-size: 13px;
+  color: #64748b;
+}

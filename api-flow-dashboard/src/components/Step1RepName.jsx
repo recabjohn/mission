@@ -47,7 +47,7 @@ export default function Step1RepName({ onDetailsFetched }) {
     <div className="step-card">
       <div className="step-header">
         <span className="step-number">1</span>
-        <h3>Rep Name</h3>
+        <h3>Get Api's</h3>
       </div>
 
       <div className="step-content">

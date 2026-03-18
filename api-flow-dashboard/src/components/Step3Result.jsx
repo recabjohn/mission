@@ -13,7 +13,7 @@ export default function Step3Result({ transactions }) {
       <div className="step-content">
         {!account ? (
           <div className="empty-state">
-            No details yet. Complete Steps 1 &amp; 2 to see results.
+            No details yet. Complete Steps 1 to see results.
           </div>
         ) : (
           <div className="account-details">

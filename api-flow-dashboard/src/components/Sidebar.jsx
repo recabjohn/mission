@@ -4,7 +4,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <span className="logo-icon">⚡</span>
+        <span className="logo-icon">M</span>
         <span className="logo-text">Mission</span>
       </div>
       

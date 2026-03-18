@@ -20,7 +20,16 @@
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-family: Georgia, serif;
 }
 
 .logo-text {

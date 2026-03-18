@@ -6,7 +6,7 @@ export default function Step3Result({ transactions }) {
   return (
     <div className="step-card">
       <div className="step-header">
-        <span className="step-number">3</span>
+        <span className="step-number">2</span>
         <h3>Result</h3>
       </div>
 

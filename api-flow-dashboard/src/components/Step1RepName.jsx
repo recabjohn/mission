@@ -1,34 +1,47 @@
 import { useState } from 'react';
-import { getTransactionHistoryList } from '../api/mockApi';
+import { getTransactionHistoryList, getHistoryDetails } from '../api/mockApi';
 import './StepCard.css';
 
-export default function Step1RepName({ onHistoryIdFetched }) {
-  const [submissionId, setSubmissionId] = useState('');
+export default function Step1RepName({ onDetailsFetched }) {
+  const [idValue, setIdValue] = useState('');
   const [selectedType, setSelectedType] = useState('submission');
   const [historyList, setHistoryList] = useState(null);
-  const [selectedHistoryId, setSelectedHistoryId] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(null);
+
+  const idLabels = { submission: 'Submission ID', quote: 'Quote ID', policy: 'Policy ID' };
+  const idPlaceholders = { submission: 'Enter submission ID', quote: 'Enter quote ID', policy: 'Enter policy ID' };
 
   const handleFetch = async () => {
-    if (!submissionId.trim()) return;
+    const id = idValue.trim();
+    if (!id) return;
 
-    setLoading(true);
+    setLoadingList(true);
     setHistoryList(null);
-    setSelectedHistoryId(null);
+    onDetailsFetched?.(null);
     try {
-      const result = await getTransactionHistoryList(submissionId);
+      const result = await getTransactionHistoryList(id, selectedType);
       setHistoryList(result.TransactionHistory);
     } catch (error) {
       console.error('Error fetching history:', error);
     } finally {
-      setLoading(false);
+      setLoadingList(false);
     }
   };
 
-  const handleSelectRow = (historyId) => {
-    setSelectedHistoryId(historyId);
-    onHistoryIdFetched?.(historyId);
+  const handleSelectHistory = async (historyId) => {
+    setLoadingDetail(historyId);
+    try {
+      const result = await getHistoryDetails(historyId);
+      onDetailsFetched?.(result);
+    } catch (error) {
+      console.error('Error fetching details:', error);
+    } finally {
+      setLoadingDetail(null);
+    }
   };
+
+  const canFetch = idValue.trim();
 
   return (
     <div className="step-card">
@@ -39,61 +52,77 @@ export default function Step1RepName({ onHistoryIdFetched }) {
 
       <div className="step-content">
         <div className="form-group">
-          <label>Type</label>
-          <div className="radio-group">
-            <label className="radio-label">
-              <input
-                type="radio"
-                value="submission"
-                checked={selectedType === 'submission'}
-                onChange={(e) => setSelectedType(e.target.value)}
-              />
-              Submission
-            </label>
-          </div>
+          <label htmlFor="type">Type</label>
+          <select
+            id="type"
+            value={selectedType}
+            onChange={(e) => { setSelectedType(e.target.value); setIdValue(''); setHistoryList(null); onDetailsFetched?.(null); }}
+            className="type-select"
+          >
+            <option value="submission">Submission</option>
+            <option value="quote">Quote</option>
+            <option value="policy">Policy</option>
+          </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="submissionId">Submission ID</label>
+          <label htmlFor="idValue">{idLabels[selectedType]}</label>
           <input
-            id="submissionId"
+            id="idValue"
             type="text"
-            value={submissionId}
-            onChange={(e) => setSubmissionId(e.target.value)}
-            placeholder="Enter submission ID"
+            value={idValue}
+            onChange={(e) => setIdValue(e.target.value)}
+            placeholder={idPlaceholders[selectedType]}
           />
         </div>
 
-        <button
-          className="fetch-btn"
-          onClick={handleFetch}
-          disabled={loading || !submissionId.trim()}
-        >
-          {loading ? 'Fetching...' : 'Fetch History List'}
-        </button>
+        <div className="action-buttons">
+          <button
+            className="action-btn action-btn-reset"
+            onClick={() => { setIdValue(''); setHistoryList(null); onDetailsFetched?.(null); }}
+            disabled={loadingList}
+          >
+            Reset
+          </button>
+          <button
+            className="action-btn action-btn-search"
+            onClick={handleFetch}
+            disabled={loadingList || !canFetch}
+          >
+            {loadingList ? 'Searching...' : 'Search'}
+          </button>
+        </div>
 
         {historyList && historyList.length > 0 && (
           <div className="history-list">
-            <p className="history-list-hint">Select a row to use its History ID in Step 2</p>
+            <p className="history-list-hint">Click a History ID to view its details</p>
             <table className="result-table">
               <thead>
                 <tr>
                   <th>History ID</th>
+                  <th>Submission #</th>
                   <th>Transaction #</th>
                   <th>Activity</th>
+                  <th>Updated By</th>
                   <th>Date</th>
                 </tr>
               </thead>
               <tbody>
                 {historyList.map((item) => (
-                  <tr
-                    key={item.HistoryID}
-                    className={selectedHistoryId === item.HistoryID ? 'row-selected' : 'row-selectable'}
-                    onClick={() => handleSelectRow(item.HistoryID)}
-                  >
-                    <td><code className="result-value">{item.HistoryID}</code></td>
+                  <tr key={item.HistoryID} className="row-selectable">
+                    <td>
+                      <a
+                        href="#result"
+                        className="history-id-link"
+                        onClick={(e) => { e.preventDefault(); handleSelectHistory(item.HistoryID); }}
+                      >
+                        {loadingDetail === item.HistoryID ? 'Loading…' : item.HistoryID}
+                      </a>
+                    </td>
+                    <td>{item.SubmissionNumber}</td>
                     <td>{item.TransactionNumber}</td>
                     <td>{item.UserActivity}</td>
+                    <td>{item.UpdatedBy}</td>
                     <td>{item.ActivityDateTime}</td>
                   </tr>
                 ))}
@@ -104,7 +133,7 @@ export default function Step1RepName({ onHistoryIdFetched }) {
       </div>
 
       <div className="api-indicator">
-        <code>getTransactionHistoryList(submissionId)</code>
+        <code>getTransactionHistoryList(id) → getHistoryDetails(historyId)</code>
       </div>
     </div>
   );

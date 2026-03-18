@@ -8,7 +8,9 @@ export const getTransactionHistoryList = async (submissionId) => {
     TransactionHistory: [
       {
         HistoryID: "1049235",
+        SubmissionNumber: "SN131293",
         TransactionNumber: "SN131293",
+        ID: submissionId,
         SubmissionID: submissionId,
         EventName: "SaveEntity_2.1.0.1",
         UserActivity: "SaveEntity",
@@ -20,7 +22,9 @@ export const getTransactionHistoryList = async (submissionId) => {
       },
       {
         HistoryID: "1049236",
+        SubmissionNumber: "SN131294",
         TransactionNumber: "SN131294",
+        ID: submissionId,
         SubmissionID: submissionId,
         EventName: "SaveEntity_2.1.0.1",
         UserActivity: "SaveEntity",
@@ -61,19 +65,7 @@ export const getHistoryDetails = async (historyId) => {
       AgentId: "a25726f6-c55c-4b2f-b29f-4204ace8a42d",
       CreatedBy: "uiux11",
       UpdatedBy: "uiux11",
-      SelectedLineOfBusiness: [
-        {
-          ID: "689bffb9-e793-4932-9544-9e4ff87e4d33",
-          LOBName: "SWP",
-          LineOfBusiness: "SWP",
-          ProductVerNumber: "SWP_1_3_V1",
-          ProductNumber: "SWP_1_3",
-          ProductVerID: "365086",
-          ProductID: "365949",
-          ChangeType: "No Change",
-          PARENTID: "90f81a72-1081-4a97-ae5f-035b0dc34aa8",
-        },
-      ],
+      SelectedLineOfBusiness: [],
       AccountAddress: [
         {
           ID: "3aa9710a-f36d-4e54-858d-ddc4cc6caa18",
